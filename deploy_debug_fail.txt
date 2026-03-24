@@ -1,0 +1,81 @@
+[2026-03-16T21:01:47.693Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[2026-03-16T21:01:47.694Z] > authorizing via signed-in user (geraldpoveda98@gmail.com)
+[2026-03-16T21:01:47.694Z] [iam] checking project sistema-estudiantil-58bc2 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[2026-03-16T21:01:47.696Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:47.697Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:47.698Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2:testIamPermissions [none]
+[2026-03-16T21:01:47.698Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2:testIamPermissions  x-goog-user-project=sistema-estudiantil-58bc2
+[2026-03-16T21:01:47.698Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[2026-03-16T21:01:48.027Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2:testIamPermissions 200
+[2026-03-16T21:01:48.027Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[2026-03-16T21:01:48.027Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:48.028Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:48.028Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/sistema-estudiantil-58bc2/serviceAccounts/sistema-estudiantil-58bc2@appspot.gserviceaccount.com:testIamPermissions [none]
+[2026-03-16T21:01:48.028Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/sistema-estudiantil-58bc2/serviceAccounts/sistema-estudiantil-58bc2@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[2026-03-16T21:01:48.385Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/sistema-estudiantil-58bc2/serviceAccounts/sistema-estudiantil-58bc2@appspot.gserviceaccount.com:testIamPermissions 200
+[2026-03-16T21:01:48.386Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/sistema-estudiantil-58bc2/serviceAccounts/sistema-estudiantil-58bc2@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+
+=== Deploying to 'sistema-estudiantil-58bc2'...
+
+i  deploying functions 
+[2026-03-16T21:01:48.391Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:48.392Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:48.392Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2 [none]
+[2026-03-16T21:01:48.508Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2 200
+[2026-03-16T21:01:48.509Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/sistema-estudiantil-58bc2 {"projectNumber":"198903164734","projectId":"sistema-estudiantil-58bc2","lifecycleState":"ACTIVE","name":"sistema-estudiantil","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-03-11T16:55:21.328328Z"}
+i  functions: preparing codebase default for deployment 
+i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[2026-03-16T21:01:48.514Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:48.514Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:48.514Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/sistema-estudiantil-58bc2/adminSdkConfig [none]
+[2026-03-16T21:01:49.121Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/sistema-estudiantil-58bc2/adminSdkConfig 200
+[2026-03-16T21:01:49.121Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/sistema-estudiantil-58bc2/adminSdkConfig {"projectId":"sistema-estudiantil-58bc2","storageBucket":"sistema-estudiantil-58bc2.firebasestorage.app"}
+[2026-03-16T21:01:49.123Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:49.124Z] Checked if tokens are valid: true, expires at: 1773697036348
+[2026-03-16T21:01:49.125Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/sistema-estudiantil-58bc2/configs [none]
+[2026-03-16T21:01:49.372Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/sistema-estudiantil-58bc2/configs 200
+[2026-03-16T21:01:49.373Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/sistema-estudiantil-58bc2/configs {}
+[2026-03-16T21:01:49.377Z] Validating nodejs source
+!  functions: Runtime Node.js 20 will be deprecated on 2026-04-30 and will be decommissioned on 2026-10-30, after which you will not be able to deploy without upgrading. Consider upgrading now to avoid disruption. See https://cloud.google.com/functions/docs/runtime-support for full details on the lifecycle policy 
+[2026-03-16T21:01:52.110Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Sistema Estudiantil",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^13.7.0",
+    "firebase-functions": "^7.1.1"
+  },
+  "private": true
+}
+[2026-03-16T21:01:52.110Z] Building nodejs source
+i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[2026-03-16T21:01:52.111Z] Could not find functions.yaml. Must use http discovery
+[2026-03-16T21:01:52.123Z] Found firebase-functions binary at 'D:\Desktop\Sistema_estudiantil\functions\node_modules\.bin\firebase-functions'
+Serving at port 8927
+
+TypeError: functions.region is not a function
+    at Object.<anonymous> (D:\Desktop\Sistema_estudiantil\functions\index.js:9:40)
+    at Module._compile (node:internal/modules/cjs/loader:1812:14)
+    at Object..js (node:internal/modules/cjs/loader:1943:10)
+    at Module.load (node:internal/modules/cjs/loader:1533:32)
+    at Module._load (node:internal/modules/cjs/loader:1335:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.require (node:internal/modules/cjs/loader:1556:12)
+    at require (node:internal/modules/helpers:152:16)
+    at loadModule (D:\Desktop\Sistema_estudiantil\functions\node_modules\firebase-functions\lib\runtime\loader.js:20:10)
+    at Object.loadStack (D:\Desktop\Sistema_estudiantil\functions\node_modules\firebase-functions\lib\runtime\loader.js:119:20)
+
+[2026-03-16T21:01:53.469Z] Got response code 400; body Failed to generate manifest from function source: functions.region is not a function
+
+Error: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error
