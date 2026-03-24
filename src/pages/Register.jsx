@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { db } from '../firebase/config';
-import { collection, addDoc, serverTimestamp, getDocs, query, orderBy, where } from 'firebase/firestore';
+import { supabase } from '../supabase/client';
 import { Sun, Moon, User, Lock, Mail, Phone, MapPin, Calendar, CreditCard, Users, ArrowLeft } from 'lucide-react';
 
 export default function Register() {
@@ -30,9 +29,13 @@ export default function Register() {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const q = query(collection(db, 'groups'), orderBy('name'));
-        const snap = await getDocs(q);
-        setGroups(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        const { data, error } = await supabase
+          .from('groups')
+          .select('*')
+          .order('name');
+          
+        if (error) throw error;
+        setGroups(data);
       } catch (err) {
         console.error("Error fetching groups:", err);
       }
@@ -68,36 +71,47 @@ export default function Register() {
 
     try {
       // 1. Verificar si el correo ya existe en 'users'
-      const qUser = query(collection(db, 'users'), where('email', '==', formData.email.toLowerCase().trim()));
-      const snapUser = await getDocs(qUser);
-      if (!snapUser.empty) {
+      const { data: existingUser, error: checkError } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', formData.email.toLowerCase().trim())
+        .maybeSingle();
+
+      if (checkError) throw checkError;
+      if (existingUser) {
         setError('Este correo ya está registrado en el sistema.');
         setLoading(false);
         return;
       }
 
-      // 2. Verificar si ya hay una solicitud pendiente o aprobada para ese correo
-      const qReq = query(collection(db, 'registration_requests'), 
-        where('email', '==', formData.email.toLowerCase().trim()),
-        where('status', 'in', ['pending', 'approved'])
-      );
-      const snapReq = await getDocs(qReq);
-      if (!snapReq.empty) {
+      // 2. Verificar si ya hay una solicitud pendiente o aprobada
+      const { data: existingReq, error: reqError } = await supabase
+        .from('registration_requests')
+        .select('email')
+        .eq('email', formData.email.toLowerCase().trim())
+        .in('status', ['pending', 'approved'])
+        .maybeSingle();
+
+      if (reqError) throw reqError;
+      if (existingReq) {
         setError('Ya existe una solicitud de registro pendiente para este correo.');
         setLoading(false);
         return;
       }
 
-      // Guardar en Firestore como "Solicitud Pendiente"
-      await addDoc(collection(db, 'registration_requests'), {
-        ...formData,
-        status: 'pending',
-        role: 'student', // rol por defecto al registrarse
-        createdAt: serverTimestamp()
-      });
+      // 3. Guardar solicitud en Supabase
+      const { error: insertError } = await supabase
+        .from('registration_requests')
+        .insert([{
+          ...formData,
+          email: formData.email.toLowerCase().trim(),
+          status: 'pending',
+          role: 'student'
+        }]);
+
+      if (insertError) throw insertError;
 
       setSuccess(true);
-      // Limpiar formulario opcionalmente
     } catch (err) {
       console.error(err);
       setError('Hubo un error al enviar tu solicitud. Intenta nuevamente.');
