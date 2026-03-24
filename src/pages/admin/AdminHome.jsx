@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
-import { db } from '../../firebase/config';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { supabase } from '../../supabase/client';
 import { 
   Users, ClipboardList, BarChart3, TrendingUp, 
   Award, GraduationCap, School, CheckCircle2 
@@ -29,22 +28,29 @@ export default function AdminHome() {
   useEffect(() => {
     async function fetchData() {
       try {
-        // 1. Fetch Users
-        const usersSnap = await getDocs(collection(db, 'users'));
-        const users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        // 1. Fetch Users from Supabase
+        const { data: users, error: usersError } = await supabase
+          .from('users')
+          .select('*');
+        if (usersError) throw usersError;
+
         const studentsCount = users.filter(u => u.role === 'student').length;
         const teachersCount = users.filter(u => u.role === 'teacher').length;
 
-        // 2. Fetch Exams
-        const examsSnap = await getDocs(collection(db, 'exams'));
-        const examsCount = examsSnap.size;
+        // 2. Fetch Exams (Handle table not existing yet)
+        const { data: exams, error: examsError } = await supabase
+          .from('exams')
+          .select('*');
+        const examsCount = exams?.length || 0;
 
-        // 3. Fetch Results
-        const resultsSnap = await getDocs(collection(db, 'exam_results'));
-        const results = resultsSnap.docs.map(d => d.data());
+        // 3. Fetch Results (Handle table not existing yet)
+        const { data: results, error: resultsError } = await supabase
+          .from('exam_results')
+          .select('*');
+        const allResults = results || [];
 
         // Process Global Average
-        const validResults = results.filter(r => r.percentageScore != null);
+        const validResults = allResults.filter(r => r.percentageScore != null);
         const globalAvg = validResults.length > 0
           ? Math.round(validResults.reduce((acc, r) => acc + r.percentageScore, 0) / validResults.length)
           : 0;
@@ -55,7 +61,7 @@ export default function AdminHome() {
           if (!studentStats[r.userId]) {
             const user = users.find(u => u.id === r.userId);
             studentStats[r.userId] = { 
-              name: r.userName || user?.nombres || user?.displayName || 'Estudiante', 
+              name: r.userName || user?.nombres || 'Estudiante', 
               total: 0, 
               count: 0 
             };
