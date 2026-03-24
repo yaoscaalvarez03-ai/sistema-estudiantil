@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Lock } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useTheme } from './context/ThemeContext';
-import { auth, db } from './firebase/config';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
@@ -14,7 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 // Componente para redirigir desde Login si ya está logueado
 const PublicRoute = ({ children }) => {
-  const { user, role, loading } = useAuth();
+  const { user, role, loading, logout } = useAuth();
   const { isDarkMode } = useTheme();
   
   if (loading) return (
@@ -51,7 +49,7 @@ const PublicRoute = ({ children }) => {
           </p>
           
           <button 
-            onClick={() => auth.signOut()} 
+            onClick={() => logout()} 
             className="w-full px-6 py-3 bg-red-500 text-white rounded-2xl text-sm font-bold shadow-lg shadow-red-500/20 hover:scale-[1.02] active:scale-95 transition-all"
           >
             Cerrar Sesión
